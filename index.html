@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Материалы к Уроку Claude Design 3.0 | Мастодонт</title>
+<style>
+@font-face{font-family:"Druk";src:url("fonts/Druk Wide Cyr.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"Onest";src:url("fonts/Onest-Regular.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"Onest";src:url("fonts/Onest-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:"Onest";src:url("fonts/Onest-SemiBold.ttf") format("truetype");font-weight:600;font-display:swap}
+@font-face{font-family:"Onest";src:url("fonts/Onest-Bold.ttf") format("truetype");font-weight:700;font-display:swap}
+@font-face{font-family:"Blender";src:url("fonts/BlenderPro-Medium.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:"Blender";src:url("fonts/BlenderPro-Bold.ttf") format("truetype");font-weight:700;font-display:swap}
+
+:root{--bg:#08080A;--bg2:#0E0E11;--bg3:#131317;--ink:#EFEAE2;--dim:#8B8579;
+--line:rgba(239,234,226,.09);--line2:rgba(239,234,226,.20);--a1:#FF7A2B;--a2:#C9A227;
+--pad:clamp(20px,4vw,64px)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Onest",sans-serif;
+font-size:clamp(16px,1.1vw,18px);line-height:1.65;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.03;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{width:min(1080px,100%);margin:0 auto;padding:0 var(--pad);position:relative;z-index:2}
+
+/* живой свет, тянется за курсором */
+.aura{position:fixed;width:620px;height:620px;left:0;top:0;pointer-events:none;z-index:0;
+transform:translate(-50%,-50%);transition:opacity .5s;
+background:radial-gradient(circle,rgba(255,122,43,.10),transparent 62%)}
+
+/* полоса прогресса чтения */
+.bar{position:fixed;left:0;top:0;height:3px;width:0;z-index:200;
+background:linear-gradient(90deg,var(--a1),var(--a2));box-shadow:0 0 18px rgba(255,122,43,.6)}
+
+nav{position:sticky;top:0;z-index:90;background:rgba(8,8,10,.82);backdrop-filter:blur(14px) saturate(1.3);
+border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;gap:22px;height:64px}
+.brand{font-family:"Druk";font-size:clamp(15px,1.5vw,19px);text-transform:uppercase;letter-spacing:.02em}
+.nav-links{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+nav a{font-family:"Blender";font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+color:var(--dim);text-decoration:none;padding:9px 13px;border-radius:3px;transition:.25s}
+nav a:hover{color:var(--ink);background:rgba(239,234,226,.06)}
+@media(max-width:700px){.nav-links{display:none}}
+
+/* ШАПКА с параллаксом в три слоя */
+/* первый экран: плакат с плавным параллаксом, снизу тонкая линия-разделитель */
+.hero{position:relative;min-height:min(104vh,1075px);display:grid;align-items:end;overflow:hidden;
+border-bottom:1px solid rgba(239,234,226,.14)}
+.hero-img{position:absolute;inset:-7% 0 0;width:100%;height:114%;object-fit:cover;
+object-position:center 40%;will-change:transform}
+@media(max-width:1000px){.hero{min-height:min(90vh,780px)}
+.hero-img{object-position:center 30%}}
+.hero::after{content:"";position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(8,8,10,.55) 0%,rgba(8,8,10,.18) 22%,rgba(8,8,10,.3) 48%,rgba(8,8,10,.72) 72%,rgba(8,8,10,.96) 90%,#08080A 100%)}
+.hero-in{position:relative;z-index:3;width:min(1080px,100%);margin:0 auto;
+padding:0 var(--pad) clamp(46px,6vw,88px);display:flex;flex-direction:column;
+align-items:flex-start;text-align:left}
+.badge{display:inline-block;font-family:"Blender";font-weight:700;font-size:12px;letter-spacing:.26em;
+text-transform:uppercase;color:var(--a1);border:1px solid var(--a1);padding:8px 15px;border-radius:2px;
+background:rgba(8,8,10,.6);backdrop-filter:blur(6px)}
+h1{font-family:"Druk";font-weight:400;text-transform:uppercase;margin:24px 0 0;
+font-size:clamp(30px,5.6vw,74px);line-height:1;letter-spacing:-.015em;
+text-shadow:0 6px 44px rgba(0,0,0,.85)}
+h1 em{font-style:normal;color:#FFC061;
+text-shadow:0 0 34px rgba(255,170,70,.85),0 0 70px rgba(255,140,50,.5),0 4px 22px rgba(0,0,0,.95)}
+.sub{margin:20px 0 0;color:var(--dim);max-width:58ch;}
+.watch{display:inline-flex;align-items:center;gap:11px;margin-top:32px;
+background:linear-gradient(100deg,var(--a1),var(--a2));color:#08080A;
+font-family:"Blender";font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;
+padding:16px 30px;border-radius:3px;text-decoration:none;
+box-shadow:0 12px 34px rgba(255,122,43,.28);transition:transform .22s,box-shadow .22s}
+.watch:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 46px rgba(255,122,43,.42)}
+
+section{padding:clamp(48px,6.5vw,104px) 0;position:relative;z-index:2}
+h2{font-family:"Druk";font-weight:400;text-transform:uppercase;margin:0 0 12px;
+font-size:clamp(22px,3.4vw,46px);line-height:1.02}
+.h2-note{color:var(--dim);margin:0 0 38px;max-width:56ch}
+h3{font-family:"Druk";font-weight:400;text-transform:uppercase;margin:0 0 13px;
+font-size:clamp(17px,2vw,26px);line-height:1.12}
+
+/* карточки с наклоном от мыши */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;perspective:1100px}
+.card{background:linear-gradient(160deg,var(--bg3),var(--bg2));border:1px solid var(--line);
+border-radius:6px;padding:28px 26px;position:relative;overflow:hidden;
+transform-style:preserve-3d;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s}
+.card:hover{border-color:var(--line2);box-shadow:0 22px 50px rgba(0,0,0,.55)}
+.card::before{content:"";position:absolute;inset:0 0 auto;height:3px;
+background:linear-gradient(90deg,var(--a1),var(--a2));transform:scaleX(0);transform-origin:left;
+transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.card:hover::before{transform:scaleX(1)}
+.card p{margin:0;color:var(--dim);font-size:.95em}
+.card .ic{font-family:"Druk";color:transparent;-webkit-text-stroke:1px var(--a1);
+font-size:34px;line-height:1;margin-bottom:16px;transition:.3s}
+.card:hover .ic{color:var(--a1);-webkit-text-stroke:1px transparent}
+
+.tools{display:grid;gap:11px}
+.tool{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--line);
+border-radius:5px;padding:19px 24px;flex-wrap:wrap;text-decoration:none;color:inherit;
+position:relative;overflow:hidden;transition:transform .25s,border-color .25s,background .25s}
+.tool::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+background:linear-gradient(180deg,var(--a1),var(--a2));transform:scaleY(0);transition:transform .3s}
+.tool:hover{border-color:var(--line2);transform:translateX(6px);background:var(--bg3)}
+.tool:hover::before{transform:scaleY(1)}
+.tool .nm{font-family:"Blender";font-weight:700;font-size:15px;letter-spacing:.1em;text-transform:uppercase}
+.tool .ds{color:var(--dim);font-size:.9em;flex:1;min-width:170px}
+.pill{font-family:"Blender";font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+padding:6px 12px;border-radius:2px;border:1px solid var(--line2);color:var(--dim);white-space:nowrap}
+.pill.free{color:var(--a2);border-color:rgba(201,162,39,.45)}
+
+/* ШАГИ: номер сбоку, глубина, появление */
+.step{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,2.6vw,42px);
+background:linear-gradient(155deg,var(--bg3),var(--bg2) 60%);border:1px solid var(--line);
+border-radius:8px;padding:clamp(26px,3.2vw,44px);margin-bottom:16px;position:relative;overflow:hidden;
+box-shadow:0 18px 44px rgba(0,0,0,.35)}
+.step::before{content:"";position:absolute;inset:0 0 auto;height:3px;
+background:linear-gradient(90deg,var(--a1),var(--a2),transparent)}
+.step::after{content:"";position:absolute;right:-120px;top:-120px;width:300px;height:300px;
+pointer-events:none;background:radial-gradient(circle,rgba(255,122,43,.09),transparent 68%)}
+.step-num{font-family:"Druk";font-size:clamp(34px,5vw,68px);line-height:.85;color:transparent;
+-webkit-text-stroke:1.5px rgba(255,122,43,.55);position:sticky;top:96px;align-self:start}
+@media(max-width:760px){.step{grid-template-columns:1fr}.step-num{position:static;font-size:38px}}
+.step .lead{color:var(--dim);margin:0 0 20px;max-width:64ch}
+.acts{list-style:none;padding:0;margin:0 0 20px}
+.acts li{position:relative;padding-left:26px;margin-bottom:11px}
+.acts li::before{content:"▸";position:absolute;left:0;color:var(--a1)}
+.acts a,.tip a,.lead a{color:var(--a1)}
+code{font-family:ui-monospace,Menlo,monospace;background:rgba(255,122,43,.12);
+padding:2px 7px;border-radius:3px;font-size:.9em;color:var(--a1)}
+
+/* промпт */
+.pr{margin:22px 0;background:#09090B;border:1px solid var(--line);border-left:3px solid transparent;
+border-image:linear-gradient(180deg,var(--a1),var(--a2)) 1;
+box-shadow:0 14px 40px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.03);
+border-radius:0 5px 5px 0;overflow:hidden}
+.pr-top{display:flex;align-items:center;gap:14px;padding:13px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.pr-lab{font-family:"Blender";font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--a1)}
+.copy{margin-left:auto;background:transparent;border:1px solid var(--line2);color:var(--dim);
+font-family:"Blender";font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+padding:8px 15px;border-radius:2px;cursor:pointer;transition:.2s;position:relative;overflow:hidden}
+.copy:hover{border-color:var(--a1);color:var(--a1);box-shadow:0 0 20px rgba(255,122,43,.25)}
+.copy.done{border-color:var(--a2);color:var(--a2)}
+.pr-body{margin:0;padding:20px 18px;white-space:pre-wrap;word-break:break-word;
+font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.85em;line-height:1.62;
+max-height:320px;overflow:auto}
+.pr-body::-webkit-scrollbar{width:9px}
+.pr-body::-webkit-scrollbar-track{background:rgba(239,234,226,.04)}
+.pr-body::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--a1),var(--a2));border-radius:5px}
+
+.tip,.warn{border-radius:5px;padding:16px 20px;margin:18px 0 0;font-size:.94em;position:relative}
+.tip{background:rgba(201,162,39,.05);border:1px solid rgba(201,162,39,.24)}
+.warn{background:rgba(255,122,43,.05);border:1px solid rgba(255,122,43,.26)}
+
+/* полноэкранные кадры с параллаксом */
+/* кадр вырывается из 12 колонок почти на всю ширину, потом контент возвращается в сетку */
+.shot{position:relative;border-radius:10px;overflow:hidden;display:grid;align-items:end;
+aspect-ratio:1800/1018;box-shadow:0 40px 90px rgba(0,0,0,.65);
+--gut:clamp(18px,3.2vw,64px);
+width:calc(100vw - var(--gut)*2);
+margin-left:calc(50% - 50vw + var(--gut));
+margin-top:clamp(52px,7vw,110px);margin-bottom:clamp(52px,7vw,110px)}
+@media(max-width:760px){.shot{aspect-ratio:auto;min-height:min(62vh,470px);--gut:14px}}
+.shot img{position:absolute;inset:-4% 0 0;width:100%;height:108%;object-fit:cover;will-change:transform}
+.shot::after{content:"";position:absolute;inset:0;
+background:linear-gradient(180deg,rgba(8,8,10,.15),rgba(8,8,10,.9))}
+.shot figcaption{position:relative;z-index:2;padding:clamp(26px,4vw,64px);max-width:1080px;
+font-family:"Druk";text-transform:uppercase;font-size:clamp(19px,3vw,44px);line-height:1.06}
+.shot .k{display:block;font-family:"Blender";font-weight:700;font-size:12px;letter-spacing:.24em;
+color:var(--a1);margin-bottom:12px}
+
+/* появление */
+[data-rv]{opacity:0;transform:translateY(34px) scale(.985);
+transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1)}
+[data-rv].in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){[data-rv]{opacity:1;transform:none;transition:none}
+.hero-img,.shot img{transform:none!important}}
+
+/* блок интенсива */
+.cta{background:linear-gradient(155deg,var(--bg3),var(--bg2));border:1px solid var(--line2);border-radius:8px;
+padding:clamp(30px,4vw,58px);position:relative;overflow:hidden;cursor:pointer;
+transition:border-color .3s,transform .3s,box-shadow .3s;animation:glow 3.4s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 44px rgba(255,122,43,.10)}50%{box-shadow:0 0 80px rgba(255,122,43,.22)}}
+.cta:hover{border-color:var(--a1);transform:translateY(-4px)}
+.cta-cover{position:absolute;inset:0;z-index:1;display:block}
+.cta>*:not(.cta-cover){position:relative;z-index:2}
+.cta::after{content:"";position:absolute;left:-90px;bottom:-90px;width:300px;height:300px;pointer-events:none;
+background:radial-gradient(circle,rgba(201,162,39,.14),transparent 68%)}
+.cta h2 span{background:linear-gradient(100deg,var(--a1),var(--a2));-webkit-background-clip:text;
+background-clip:text;color:transparent}
+.cta-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(22px,3vw,50px);margin-top:30px}
+@media(max-width:760px){.cta-cols{grid-template-columns:1fr}}
+.cta-cols h4{font-family:"Blender";font-weight:700;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+color:var(--a1);margin:0 0 15px}
+.cta-cols ul{list-style:none;padding:0;margin:0}
+.cta-cols li{margin-bottom:12px;color:var(--dim);font-size:.95em}
+.cta-bottom{display:flex;align-items:center;gap:20px;margin-top:34px;flex-wrap:wrap;
+border-top:1px solid var(--line);padding-top:28px}
+.cta-bottom .free{font-family:"Blender";font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+font-size:14px;color:var(--dim)}
+.cta-bottom .free b{color:var(--a2)}
+.cta-btn{margin-left:auto;background:linear-gradient(100deg,var(--a1),var(--a2));color:#08080A;
+font-family:"Blender";font-weight:700;font-size:14px;letter-spacing:.14em;text-transform:uppercase;
+padding:16px 32px;border-radius:3px;text-decoration:none;transition:transform .22s}
+.cta:hover .cta-btn{transform:translateY(-2px) scale(1.03)}
+
+footer{border-top:1px solid var(--line);padding:44px 0 66px;position:relative;z-index:2}
+.f-in{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.f-in .tag{color:var(--dim);font-size:.92em}
+.f-in a{margin-left:auto;color:var(--a1);text-decoration:none;font-family:"Blender";font-weight:700;
+font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+::selection{background:var(--a1);color:#08080A}
+</style></head><body>
+
+<div class="bar" id="bar"></div>
+<div class="aura" id="aura"></div>
+
+<nav><div class="wrap nav-in">
+<span class="brand">Мастодонт</span>
+<div class="nav-links">
+<a href="#learn">Что научишься</a><a href="#tools">Инструменты</a><a href="#steps">Шаги</a><a href="#skill">Скилл</a><a href="#links">Ссылки</a>
+</div></div></nav>
+
+<header class="hero">
+<img class="hero-img" id="heroimg" src="img/agit.jpg" alt="Хватит одинаковых сайтов">
+<div class="hero-in">
+<span class="badge" data-rv>Материалы к уроку</span>
+<h1 data-rv>Claude Design 3.0<br><em>Бренд с нуля</em></h1>
+<p class="sub" data-rv>Дизайн-система, весь пак картинок одним промптом, сайт, 3D-кино внутри него и анимация. Всё в одном фирменном стиле и без единой строчки кода.</p>
+<a class="watch" data-rv href="https://youtu.be/sftZj-EOgQM" target="_blank">▶ Смотреть видео</a>
+</div></header>
+
+<section id="learn"><div class="wrap">
+<h2 data-rv>Что научишься делать</h2>
+<p class="h2-note" data-rv>Шесть вещей, каждая работает отдельно от остальных.</p>
+<div class="cards">
+<div class="card" data-rv><div class="ic">01</div><p>Собирать дизайн-систему, чтобы каждый следующий проект выходил в одном фирменном стиле</p></div>
+<div class="card" data-rv><div class="ic">02</div><p>Генерить весь бренд одним промптом: логотипы, фото товара, макро, текстуры и видео</p></div>
+<div class="card" data-rv><div class="ic">03</div><p>Забирать сайт из Claude Design к себе и доводить его словами</p></div>
+<div class="card" data-rv><div class="ic">04</div><p>Вставлять 3D-кино прямо внутрь сайта, склеенное из трёх клипов</p></div>
+<div class="card" data-rv><div class="ic">05</div><p>Доставать из той же системы что угодно ещё - слайды, анимацию, документы</p></div>
+<div class="card" data-rv><div class="ic">06</div><p>Генерить картинки и видео за копейки вместо подписки за 40 долларов</p></div>
+</div></div></section>
+
+<section id="tools"><div class="wrap">
+<h2 data-rv>Что понадобится</h2>
+<p class="h2-note" data-rv>Обязательны только первые два. Остальное - бесплатные склады компонентов.</p>
+<div class="tools">
+<a class="tool" data-rv href="https://claude.ai" target="_blank"><span class="nm">Claude Design</span><span class="ds">Визуальная среда Anthropic. Там же Claude Code</span><span class="pill">по подписке</span></a>
+<a class="tool" data-rv href="https://kie.ai" target="_blank"><span class="nm">Kie</span><span class="ds">Генерация картинок и видео. Пополняется российскими картами</span><span class="pill free">копейки</span></a>
+<a class="tool" data-rv href="https://higgsfield.ai" target="_blank"><span class="nm">Higgsfield</span><span class="ds">Нужен, только если хочешь подключить коннектором</span><span class="pill">40 $/мес</span></a>
+<a class="tool" data-rv href="https://21st.dev" target="_blank"><span class="nm">21st.dev</span><span class="ds">Склад готовых компонентов: карусели, кнопки, фоны</span><span class="pill free">бесплатно</span></a>
+<a class="tool" data-rv href="https://ui.aceternity.com" target="_blank"><span class="nm">Aceternity UI</span><span class="ds">Анимированные фоны и шейдеры</span><span class="pill free">бесплатно</span></a>
+<a class="tool" data-rv href="https://reactbits.dev" target="_blank"><span class="nm">ReactBits</span><span class="ds">Микро-компоненты, не похожие на шаблон</span><span class="pill free">бесплатно</span></a>
+</div></div></section>
+
+<section id="steps"><div class="wrap">
+<h2 data-rv>Шаги</h2>
+<p class="h2-note" data-rv>Тринадцать шагов по порядку. Все промпты копируются кнопкой.</p>
+<article class="step" data-rv><div class="step-num">01</div><div class="step-body"><h3>Создаём дизайн-систему</h3><p class="lead">Заходишь в Claude, слева жмёшь Design. Это отдельная среда под визуал - там живут проекты и дизайн-системы.</p><ul class="acts"><li>Вкладка <b>Design systems</b></li><li>Кнопка <b>Create design system</b></li><li>Из двух карточек берёшь левую - <b>Create here</b>. Правая нужна, только если компоненты уже написаны в коде</li></ul><div class="tip">Откроется форма, куда грузят логотипы, шрифты и фотки. У нового бренда ничего этого нет - поэтому сначала всё сгенерим.</div></div></article>
+<article class="step" data-rv><div class="step-num">02</div><div class="step-body"><h3>Промпт, который делает весь бренд</h3><p class="lead">Открываешь Claude Code и вставляешь этот промпт целиком. Он возьмёт у тебя интервью, придумает палитру, посчитает стоимость и сгенерит весь пак картинок.</p><ul class="acts"><li>Копируешь промпт целиком - не сокращай и не переписывай</li><li>Вставляешь в <b>Claude Code</b>, жмёшь Enter</li></ul><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 1 · Brand Asset Machine</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">Ты сейчас соберёшь для меня полный пак фирменных ассетов и вошьёшь его в мой сайт, используя Higgsfield CLI (бинарник `higgsfield` установлен и залогинен). Ты НЕ проектируешь сам сайт - ты создаёшь всё, что сайт на себе носит: логотип, фотографии, движение, текстуры. Бери лучшие модели: nano_banana_pro для фотографий и текстур, gpt_image_2 для логотипа, seedance_2_0 для движения. Дешёвыми не подменять.
+
+ШАГ 0: ВОЗЬМИ У МЕНЯ ИНТЕРВЬЮ (сначала это, пока ничего не генерь)
+Задай мне вопросы одним заходом, потом подтверди своё понимание обратно, и только потом иди дальше:
+1. Что за продукт или бизнес?
+2. Есть ли у меня название бренда, или предложить три с характером?
+3. Какой вайб? (два-три прилагательных, или фильм, место, эпоха, на которые это должно быть похоже)
+4. Сколько героев-продуктов и есть ли у них имена?
+5. Чего избегать? (цвета, которые я не люблю, клише моей категории, конкуренты, на которых не надо походить)
+6. Есть готовая папка проекта сайта, куда вшивать, или сначала собираем пак?
+
+ШАГ 1: ИССЛЕДОВАНИЕ, ПАЛИТРА И ПЛАН АССЕТОВ ПОД БРЕНД (после моего подтверждения)
+Погугли реальные бренды в моей категории и сильные логотипы - только ради энергии-референса, никогда для копирования. Потом напиши мне художественное направление, где обязательно есть:
+- ПАЛИТРА: пять-шесть названных цветов с точными hex-кодами. Напечатай её в чат И сохрани в palette.md. Каждый ассет обязан оставаться внутри этой палитры.
+- Направление логотипа: две-три концепции, по одной строке каждая
+- ПЛАН АССЕТОВ ПОД БРЕНД: подумай осмысленно, что сайту ИМЕННО ЭТОГО бренда реально нужно. Базовый пак ниже - это пол, а не потолок. Предложи пять-десять добавок под эту нишу, у каждой одна строка назначения: атмосферные накладки (клочья дыма, пар, неоновая дымка, мучная пыль - на чистом чёрном или белом, чтобы чисто накладывались), свой текстурный пак (три-четыре фона секций в палитре), паттерны, значки, макро-детали, кадры окружения. Я утверждаю или правлю этот список до того, как ты что-то оценишь в деньгах.
+
+ШАГ 2: ПАРАМЕТРЫ И СТОИМОСТЬ (отвечай на вопросы CLI этими значениями, потом подтверди со мной)
+- Герои-продукты: 16:9 и 1:1 каждый. Баннер и всё остальное: 16:9. Логотип: 1:1
+- Одна генерация на ассет первым проходом, перегенерировать только провалы
+- Посчитай командой `higgsfield generate cost` базовый пак ПЛЮС утверждённые добавки, покажи мне общую сумму в кредитах и ЖДИ моего слова, не создавая ни одной задачи
+- Остаток кредитов проверь сначала командой `higgsfield account`
+
+ШАГ 3: ГЕНЕРАЦИЯ (после моего да)
+logo/ (gpt_image_2): плоский векторный знак, три варианта направления, каждый на чистом белом и на прозрачном, без фотофактуры
+banner/ (nano_banana_pro): один флагманский кадр для шапки сайта, продукт с одной стороны, чистое место под заголовок с другой
+heroes/ (nano_banana_pro): каждый герой-продукт, одинаковая сборка и язык света у всех, 16:9 плюс 1:1
+action/ (nano_banana_pro): три макро-кадра, как продукт делают или подают - самые грязные, самые физические моменты
+detail/ (nano_banana_pro): два кадра истории качества - сырьё, постановочная раскладка или сцена подготовки
+lifestyle/ (nano_banana_pro): два кадра с человеческими руками в мире бренда, читаемого текста в кадре нет нигде
+motion/ (seedance_2_0, из лучшего кадра action): ОДИН луп примерно на пять секунд, замедленный, самый удовлетворяющий физический момент, зацикливаемый, плюс постер-кадр к нему. Это станет фоном шапки сайта - повторы трать именно здесь
+extras/ всё утверждённое из плана ассетов, разложить по подпапкам по типам
+
+ШАГ 4: ВШИТЬ В САЙТ
+Если я дал тебе папку проекта на шаге 0 - подключи ассеты:
+- Луп как шапка: автозапуск, без звука, зациклен, постер-кадр как запасной
+- Кадры героев на карточки продуктов, баннер туда, где нужна статичная шапка
+- Текстуры под секции с низкой прозрачностью, атмосферные накладки поверх них
+- Логотип в навигацию и как иконку сайта
+Если проекта ещё нет - напиши embed-guide.md с точными кусками HTML и CSS для вставки под каждое из этих мест.
+
+ШАГ 5: ПЕРЕДАЧА В CLAUDE DESIGN
+Сохрани всё в ~/Desktop/[имя-бренда]-assets/ плюс:
+- palette.md - hex-коды
+- manifest.md - каждый файл, модель, промпт, потраченные кредиты
+- claude-design-brief.md - ровно то, что просит Claude Design:
+  - Название компании
+  - Описание компании (два-три предложения голосом бренда)
+  - Название дизайн-системы
+  - Прочие заметки: hex-коды палитры, одна пара шрифтов, слова про тон, два-три правила делать и не делать
+В конце напечатай claude-design-brief.md целиком, чтобы я скопировал его прямо в Claude Design.
+
+ПРАВИЛА
+- Одинаковая сборка продукта и язык света на каждом ассете. Консистентность - это и есть весь смысл.
+- Каждый ассет остаётся внутри палитры из шага 1.
+- Никакого текста, впечатанного в фотографию. Знак несут только файлы из logo/.
+- Накладки и текстуры достаточно деликатные, чтобы под ними читался текст.
+- Вышло не в бренд или с кашей: перегенерируй один раз, прежде чем показывать мне.</pre></div><div class="warn">Почему не в обычном чате: промпту нужен доступ к генерации картинок. В Claude Code он подключается коннектором, один раз.</div></div></article>
+<article class="step" data-rv><div class="step-num">03</div><div class="step-body"><h3>Отвечаешь на интервью</h3><p class="lead">Он задаст шесть вопросов: что за бизнес, есть ли название, какой вайб, сколько изделий, чего избегать. Отвечаешь одним сообщением.</p><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 2 · пример ответа - подставь свой бренд</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">мастерская, которая делает гитарные примочки и ламповые усилители. называется мастодонт. вайб - сырой рок-н-ролл, животная энергия. грязный рок, собранный в лаборатории: тёплое ламповое свечение, латунь, потёртый металл, одна лампочка в тёмном подвале, но внутри коробки зверь, а не гаджет. пять изделий, названия по-русски. избегать всех клише, никаких мамонтов и бивней в лоб.</pre></div><div class="tip">Не пиши «сделай красиво». Давай ощущение: свет, материалы, место. Из этого нейронка достанет палитру точнее, чем из слова «премиально».</div></div></article>
+<article class="step" data-rv><div class="step-num">04</div><div class="step-body"><h3>Генерим картинки за копейки</h3><p class="lead">Вместо подписки за 40 долларов вызываешь скилл generate и генеришь через Kie. Пополняется российскими картами, одна картинка стоит копейки.</p><ul class="acts"><li>Регистрируешься на <a href="https://kie.ai" target="_blank">kie.ai</a>, берёшь API-ключ</li><li>Вызываешь <code>/generate</code> в Claude Code</li><li>Разрешение задаёшь руками - иначе выдаст самое мелкое</li></ul><div class="tip">Подробный разбор, как это настроить, - в <a href="https://www.youtube.com/watch?v=A5qPuRah4lI" target="_blank">прошлом видосе</a>.</div></div></article>
+<article class="step" data-rv><div class="step-num">05</div><div class="step-body"><h3>Грузим пак в систему</h3><p class="lead">Возвращаешься в форму дизайн-системы и скармливаешь ей всё, что нагенерилось.</p><ul class="acts"><li><b>Add fonts, logos and assets</b> → Browse → грузишь папку</li><li>В описание вставляешь сводку бренда, которую выдал промпт</li><li><b>Continue to generation</b>, ждёшь около пяти минут</li></ul><div class="warn">Лимит <b>50 МБ</b>. Сырая папка картинок в него не влезет - попроси сжать. У нас было 420 МБ, стало 32.</div><div class="tip">Чем мощнее модель, тем лучше результат. Но учти: одна сборка на Fable съедает половину недельного лимита даже на старшем тарифе.</div></div></article>
+<article class="step" data-rv><div class="step-num">06</div><div class="step-body"><h3>Собираем сайт одним промптом</h3><p class="lead">Система готова - теперь она сама подтянет цвета, шрифты и фотки в любой новый проект.</p><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 3 · сайт</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">сделай мне красивый сайт на ассетах этой мастерской. покажи изделия, сделай разные секции, современные компоненты, хороший интерфейс, анимации при скролле, правильное количество текста - не простыня. чтобы выглядело дорого.</pre></div></div></article><figure class="shot" data-par><img src="img/slop-vse.jpg" alt="Сайт собран - но это ещё половина дела" loading="lazy"><figcaption><span class="k">Середина пути</span>Сайт собран - но это ещё половина дела</figcaption></figure><article class="step" data-rv><div class="step-num">07</div><div class="step-body"><h3>Забираем сайт себе</h3><p class="lead">Сайт живёт внутри Claude Design. Чтобы доводить его руками и выложить в интернет - забираем к себе.</p><ul class="acts"><li><b>Share</b> → <b>Project HTML</b></li><li>В окне выбираешь <b>Project archive</b> - архив со всеми файлами, мгновенно и бесплатно</li><li>Второй вариант, Standalone, работает моделью и ест твой лимит</li></ul><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 4 · открыть у себя</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">ознакомься с этим и открой мне это на локалхосте</pre></div><div class="tip">Локалхост - это просто способ посмотреть сайт у себя на компьютере. Без интернета и без хостинга.</div></div></article>
+<article class="step" data-rv><div class="step-num">08</div><div class="step-body"><h3>Правишь словами</h3><p class="lead">Первая версия никогда не финальная. Просто пишешь, что не нравится.</p><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 5 · правки сайта</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">убери бегущую строку. в блоке с изделиями поставь фотки из папки heroes - те, где все пять сняты в одной сцене и с одним светом. и сделай так, чтобы при клике на изделие менялся блок с описанием под ним</pre></div></div></article>
+<article class="step" data-rv><div class="step-num">09</div><div class="step-body"><h3>Кино прямо внутри сайта</h3><p class="lead">Аккуратный сайт - это ещё не дорогой. Дорогой - когда есть одна вещь, на которой человек залипает.</p><ul class="acts"><li>Вызываешь скилл, он задаст три вопроса</li><li>Отвечаешь: чем снимать, куда встроить, сколько клипов</li></ul><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 6 · вызов скилла</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">/scroll-film-studio задай мне вопросы и сделай красивое 3D-анимированное видео, чтобы встроить его в этот сайт. возьми графику, изображения и стиль этого бренда</pre></div><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 7 · ответы на вопросы</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">сайт уже есть, встраиваем в него. движок - higgsfield seedance. размещение - отдельной секцией между блоками, не на весь первый экран. длина - три клипа по пять секунд</pre></div><div class="warn">Украшательство - ловушка. Три крутящихся объекта это тот же слоп, только другого сорта. Анимируй одну вещь.</div></div></article>
+<article class="step" data-rv><div class="step-num">10</div><div class="step-body"><h3>Маршрут камеры</h3><p class="lead">Главное правило, из-за которого такое кино обычно разваливается: у всего фильма должно быть одно направление.</p><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 8 · маршрут камеры</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">маршрут такой: камера всё время идёт только вперёд и вглубь, ни разу не отступает и не отъезжает. четыре опорные точки, бери их из папки ассетов: banner-hero - тёмная мастерская с одной лампой слева. detail-bench - верстак крупнее, вскрытая педаль с цветными проводами. action-solder - макро, паяльник и дым внутри корпуса. action-tube - накал лампы во весь кадр. новые кадры не генерь, используй эти</pre></div><div class="tip">Камера пошла вперёд - значит вперёд до конца. Поехала вбок, потом назад - человек скроллит, а картинка не складывается, и это читается как нарезка случайных кусков.</div></div></article>
+<article class="step" data-rv><div class="step-num">11</div><div class="step-body"><h3>Воруем готовую карусель</h3><p class="lead">В интернете есть склады готовых красивых кусков для сайта: кнопки, карусели, анимированные фоны. Люди их сделали и отдают бесплатно.</p><ul class="acts"><li>Заходишь на <a href="https://21st.dev" target="_blank">21st.dev</a>, ищешь компонент</li><li>Жмёшь <b>Copy code</b></li><li>Приносишь в Claude Code</li></ul><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 9 · поставить карусель</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">поставь вот эту карусель вместо ряда изделий, картинки возьми наши. клик по центральной должен по-прежнему менять блок с описанием</pre></div><div class="tip">Код не копируется - просто скриншоть понравившийся сайт и скажи: нравится этот вайб, сделай похоже.</div></div></article>
+<article class="step" data-rv><div class="step-num">12</div><div class="step-body"><h3>Встраиваем кино в сайт</h3><p class="lead">Три клипа склеиваются встык и играют как один непрерывный проезд.</p><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 10 · встроить кино</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">встрой это кино отдельной секцией между блоком с изделиями и блоком про мамонт. три клипа должны идти встык, без чёрных кадров между ними. запускается когда доскроллил, в конце пусть поверх проявится наш логотип</pre></div><div class="warn">Логотип всегда давай файлом. Загрузил - повторит точно. Попросишь придумать - получишь в каждой картинке свой вариант знака.</div></div></article>
+<article class="step" data-rv><div class="step-num">13</div><div class="step-body"><h3>Анимация из той же системы</h3><p class="lead">Один сайт - это демка. Система, из которой достаёшь что угодно за минуту, - это уже услуга.</p><ul class="acts"><li>Новый проект → шаблон <b>Animation</b></li><li><b>Clear selection</b> - отвязываешься от текущей системы</li><li>Плюсик → <b>Attach file</b> → цепляешь описание бренда</li></ul><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 11 · оживить описание бренда</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">оживи это. мастодонт - мастерская, которая собирает гитарные примочки и ламповые усилители. тяжёлое железо для рок-н-ролла, собрано инженерами. разбей на три секции</pre></div><div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт 12 · правка анимации</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body">хочу видеть только красивые блоки, текста меньше. короткие подписи оставь, но чтобы человек не щурился и не напрягался. убери лишнее и упрости</pre></div><div class="tip">Файл с описанием бренда создаёт тот же промпт из шага 2 - он сохраняет его в папку вместе с картинками.</div></div></article>
+</div></section>
+
+<section id="skill"><div class="wrap">
+<h2 data-rv>Скилл для 3D-кино</h2>
+<p class="h2-note" data-rv>Это обычный текст с инструкцией. Копируешь целиком, отдаёшь Claude Code и говоришь работать по нему. Устанавливать нечего.</p>
+<div class="pr" data-rv><div class="pr-top"><span class="pr-lab">Промпт S · scroll-film-studio - копируй целиком</span><button class="copy" type="button"><span>Скопировать</span></button></div><pre class="pr-body"># Скилл: кино на скролле
+
+Ты собираешь сайты, где главный экран - это не картинка, а непрерывный кинокадр, который прокручивается вместе со скроллом и переходит в контент ниже.
+
+Два способа сделать фильм:
+
+- **Путь А, чистый код (по умолчанию, ничего настраивать не надо).** Фильм собирается движением: закреплённые сцены, параллакс, раскрытие через маску, горизонтальные проезды. Стоит ноль, аккаунтов не требует.
+- **Путь Б, настоящее видео (по желанию).** Фильм - это сгенерированные клипы, сшитые встык и прокручиваемые на холсте. Нужен свой доступ к движку генерации видео и кредиты. Это фирменный вид.
+
+Оба дают красивый результат. Путь А доступен всегда, путь Б открывается, когда есть чем генерить видео.
+
+---
+
+## ДВА РЕЖИМА - собрать сайт или встроить в готовый
+
+**Сначала спроси: «У тебя уже есть сайт, куда это встроить, или страницу делаем с нуля?»** От ответа зависит всё дальнейшее.
+
+- **Режим сайта с нуля** - проходишь весь процесс ниже без изменений. Фильм и есть страница.
+- **Режим встраивания** - у человека уже есть сайт. Ты НЕ проектируешь сайт заново. Ты делаешь фильм и его картинки и встраиваешь их в то, что уже есть. Его дизайн главнее, ты ему подчиняешься.
+
+### Правила режима встраивания
+
+1. **Сначала прочитай сайт.** Открой проект, вытащи настоящую палитру, шрифты, отступы и фирменные материалы - логотипы, фотографии товара, текстуры. Фильм должен выглядеть снятым для ЭТОГО бренда, поэтому по возможности бери их же изображения как опорные кадры.
+2. **Предложи ровно три варианта размещения** и порекомендуй один:
+   - **Прокручиваемый первый экран** - фильм перематывается скроллом в самом верху страницы. Около 25 секунд. Фирменный вид.
+   - **Фоновая петля** - короткий бесшовный цикл за шапкой: 5-8 секунд, первый и последний кадр совпадают, без звука, с постер-кадром.
+   - **Отдельная секция** - кинематографический блок во всю ширину между двумя существующими секциями, запускается при попадании в экран. Около 25 секунд.
+3. **Генерируй тем движком, что есть у человека.** Нет движка - собирай движение чистым кодом из его же изображений.
+4. **Встраивай без разрушений.** Трогай только то, что нужно для выбранного размещения: разметку новой секции, механику прокрутки, постер-кадр и облегчённый вариант для тех, кто отключил анимацию. Не переделывай и не «улучшай» остальной сайт. На телефоне ставь постер или лёгкую петлю, а не 25-секундную прокрутку.
+5. **В конце скажи, какие именно файлы тронул** и как откатить.
+
+---
+
+## ГЛАВНОЕ ПРАВИЛО - дизайн не делегируется
+
+Работай на самой сильной модели, которая доступна, и на максимальном уровне усилий. Все решения о вкусе оставляй на ней: концепции, художественное направление, палитра, шрифты, вёрстка, движение, тексты, сама сборка и финальная проверка.
+
+Отдавать можно только две вещи, и никогда не дизайн:
+
+- **Механическую работу** - без модели вообще: нарезка кадров, сравнение картинок, сборка, проверки.
+- **Ограниченные черновики** - отдельные подзадачи со свежим контекстом: написать промпт одной главы, написать одну секцию под фильмом, выступить критиком концепций.
+
+**У каждого бренда своя страница.** Не перекрашивай сайт, собранный раньше: та же структура, те же места переходов, тот же каркас, новые цвета - это самый быстрый способ сделать два посредственных сайта вместо одного хорошего.
+
+---
+
+## ШАГ 0 - интервью
+
+Спроси всё это сразу, одним заходом. У каждого творческого вопроса есть путь «решай сам» - если человек не хочет выбирать, решай художественное направление самостоятельно и иди дальше. Никогда не застревай на вопросе, ответ на который можешь дать хорошо сам.
+
+0. **Есть готовый сайт или делаем с нуля?** Есть - режим встраивания, спроси заодно про размещение и где лежит проект.
+1. **Что собираем и какое ощущение одной строкой?** Название, что это, какое чувство.
+2. **Есть фирменные материалы или мир придумываю я?** Готовый логотип, цвета, шрифты, настоящие фотографии - или полная свобода.
+3. **Маршрут - один непрерывный проезд сверху вниз.** Откуда камера начинает и куда приходит, то есть **превращение**. Это сердце всей сборки.
+4. **Настоящее видео или движение кодом?** Не уверен или хочешь без настроек - берём код.
+5. **(Только для видео) Чем генерим?** Спроси прямо. Установлено ли, залогинено ли, сколько глав, есть ли потолок по деньгам. Сначала черновик, подтверждение стоимости, и только потом чистовой прогон в полном качестве.
+6. **Что идёт под фильмом?** Секции ниже - линейка, коллекция, запись, манифест - главное действие, контакты.
+7. **Куда это выкладывать?** Только локально или публикуем.
+
+---
+
+## ШАГ 1 - концепции, до всякой сборки
+
+Придумай **две-три названные концепции** и покажи их. Правила:
+
+- Первой идёт та, что рекомендуешь, и это прямо сказано.
+- У каждой - **конкретный рассказ, что человек увидит**, а не одна абстрактная фраза. Проведи по прокрутке: что видно сверху, что происходит при скролле, что в каждой главе, как фильм переходит в контент.
+- У каждой есть имя, путь (код или видео), число глав и, для видео, прикидка стоимости.
+- **Концепции обязан атаковать тот, кто их не писал.** Это не пропускается. Дай ему только бренд и сами концепции - без твоих рассуждений, без того, какая тебе нравится, и без упоминания, что писал их ты. Попроси: разнести каждую (читается ли маршрут, запоминается ли, происходит ли превращение или это просто четыре разных кадра подряд, влезает ли в заявленное число глав) и предложить один дикий вариант, которого никто не рассматривал. Что выжило - вставляешь в свою подачу.
+  *Модель, проверяющая собственную свежую работу в том же разговоре, не проверяет, а защищает то, что только что написала.*
+- Дай выбрать или смешать. Сказали «выбирай сам» - берёшь рекомендованную и идёшь.
+
+Собирать начинаешь только после выбора концепции.
+
+---
+
+## ШАГ 2 - художественное направление
+
+Реши и зафиксируй: палитра точными кодами цветов, пара шрифтов с характером (никаких системных шрифтов по умолчанию), знак бренда, ощущение движения, названия глав. У каждого бренда свои шрифты и свой мир. Логотипы реальных сторонних сервисов бери настоящими файлами, а не рисуй похожее от руки.
+
+---
+
+## ПУТЬ А - чистый код
+
+Пишешь одну самодостаточную страницу с нуля под этот бренд. Библиотеки анимации подключаешь ссылкой. Фильм собираешь из приёмов: закреплённые сцены, привязанные к прокрутке таймлайны, посимвольное раскрытие заголовка, горизонтальные проезды с параллаксом, наклон от скорости, счётчики, бегущие строки - и расставляешь их так, чтобы они рассказывали маршрут ИМЕННО этого бренда.
+
+Важный порядок: **создавай фоновые эффекты ПОСЛЕ закреплённых сцен.** Порядок создания - это порядок пересчёта, и нарушение тихо сдвигает всё, что идёт после закреплённой сцены.
+
+---
+
+## ПУТЬ Б - настоящее видео
+
+### Какой моделью снимать
+
+Бери **лучшую доступную модель для оживления картинки**. Перед первой генерацией посмотри, что реально доступно на аккаунте, и выбери самую сильную версию. Скажи в чат, какую выбрал и почему.
+
+Никогда не откатывайся молча на модель послабее из-за одной ошибки - повтори попытку или скажи, что движок недоступен. Фильм, тихо снятый на слабой модели, - самый незаметный и самый дорогой в переделке провал: он не выглядит сломанным, он выглядит дёшево.
+
+### Как собирается фильм
+
+1. **Раскадровка.** Разбей выбранную концепцию на главы, одно непрерывное направление камеры на всю длину.
+
+   **По умолчанию 5 клипов по 5 секунд = фильм на 25 секунд, и это подтверждается у человека до генерации.** Назови число клипов, секунды, общую длину и стоимость, и дождись «да». Хочет длиннее - добавляй **клипы**, а не секунды внутри клипа.
+
+   **Перед раскадровкой спроси, влезает ли весь фильм в одну генерацию.** Одна генерация не может иметь шва - ей не нужны ни проверки стыков, ни починка. Склейка - это компромисс, а не первый выбор.
+
+   **Считай не длину, а расстояние.** Ломает фильм не то, сколько он идёт, а то, как далеко одному клипу приходится ехать. Жёсткое правило:
+
+   &gt; **Один клип = одно направление камеры, одно место, одно состояние света.**
+   &gt; Меняется хоть одно из трёх - это уже другой клип.
+
+   **И у всего фильма ОДИН вектор.** Назови его одной фразой до того, как напишешь первый клип - «камера только углубляется», «камера только падает» - и дальше каждый клип обязан продолжать этот вектор. Человек скроллит в одну сторону; если камера едет вперёд, потом вбок, потом назад, потом снова вперёд - прокрутка перестаёт что-либо значить, и фильм читается как набор случайно склеенных кусков.
+
+   Пиши переходы, а не только кадры. В промпте каждого клипа должно быть сказано, **как он продолжает предыдущий**, а не просто что в нём есть: «продолжая тот же наезд, теперь проходим мимо стены» - а не «кадр стены». Продаётся стык, кадр - это лишь место, где стык происходит.
+
+   Проверь свою раскадровку до того, как потратишь деньги: пройди по промптам и найди слова направления. Если в одном клипе есть и «внутрь» и «наружу» - клип разворачивается сам на себе. Если слов направления нет вообще - у клипа нет инструкции, и модель придумает её сама.
+
+   **Один разворот допустим, если разворот и есть история** - например, спуск на дно и подъём обратно через горлышко. Тогда объяви его в описании вектора. Необъявленный разворот - это ошибка.
+
+   Клип, которому велено попасть с солнечной поляны внутрь тёмной мастерской, обязан сменить всё сразу - и модель не поедет, а прыгнет: приземлится на нужный кадр, чтобы стык сошёлся, а в середине склеит рывком, где никто не смотрит.
+   Лучше **больше коротких клипов**: пять секунд уводит меньше, чем девять, и восемь маленьких движений лучше четырёх больших при той же общей длине. Нужен и наезд, и смена места - вставь промежуточный опорный кадр и отдай по клипу на каждое.
+
+2. **Генерация.** Каждый клип закрепляется с ОБОИХ концов: стартовым и финальным кадром. Клип **обязан прийти** в следующий опорный кадр. Модель, у которой закреплено только начало, вольна уехать куда угодно, а потом рывком вернуться к цели - именно эта свобода и порождает рывки.
+
+   **Но стартовое закрепление - это реальный последний кадр предыдущего клипа, а не опорная картинка.** Это заставляет цепочку идти строго последовательно: клип не может начать рендериться, пока не закончился предыдущий. Никогда не запускай клипы параллельно.
+
+   Опорные кадры делай цепочкой: каждый следующий генерируется с предыдущим как образцом, последовательно, чтобы палитра, свет, материалы и масштаб наследовались, а не выдумывались заново.
+
+3. **Проверь непрерывность всего фильма, прежде чем что-то собирать.** Стык и середина - разные вещи, и проверка одних стыков соврёт. При склейке стартовый кадр каждого клипа равен последнему кадру предыдущего, поэтому стыки сходятся по построению - они не могут не сойтись. Убегает середина клипа. Причина почти всегда в раскадровке, а не в движке: если клипу надо сменить место, масштаб и свет разом - он телепортируется. Больше клипов, каждый едет меньше.
+
+4. **Проверь каждый стык измерением, а не глазами.** Плохой стык чинится перегенерацией с точной формулировкой продолжения. Замазывать шов плавным переходом запрещено.
+
+5. **Собери фильм** и **нарезай кадры на родной частоте**. Фильм на 72 секунды при 24 кадрах в секунду - это 1729 кадров, и если выгрузить «примерно 300», страница будет прокручиваться слайд-шоу. Это ровно та причина, по которой всё «дёргается», и её не видно в коде: движок исправен, ему просто нечего рисовать. Меняй разрешение на количество кадров, а не наоборот.
+
+6. **Обрежь начало фильма и только потом фиксируй число кадров.** Сгенерированные фильмы регулярно открываются кадром, который ещё не начал двигаться, или кадрировкой, будто это другое видео - и это читается как рывок в собственный фильм, причём самый первый, что видит человек. Просмотри первые пару секунд покадрово и режь, пока открывающий кадр не окажется уже внутри движения.
+
+7. **Собери страницу вокруг материала**: механика прокрутки на холсте, плавный переход между кадрами, шапка, меняющая контраст, отметки глав, наложения по ключевым моментам, передача в контент под фильмом.
+
+**Часть генераций падает на стороне сервиса без причины и не списывает деньги - просто повтори.**
+
+---
+
+## ДЕНЬГИ
+
+1. **Звук выключен.** Со звуком счёт вырастает втрое, а фильму на прокрутке звук не нужен.
+2. **Подтверждай до траты.** Назови сумму до генерации, покажи остаток после.
+3. **Черновик дешёвый, чистовик один.** Проверь всю цепочку на самом дешёвом качестве, потом перезапусти в полном только то, что утвердили.
+4. **Переиспользуй материал.** Один фильм тянет несколько направлений - платишь за съёмку, перекраска бесплатна.
+
+---
+
+## ПРОВЕРКА
+
+Сделай так, чтобы страницу можно было открыть сразу на нужной позиции прокрутки и чтобы она сама сообщала, когда полностью готова. Снимай экран на каждом ключевом моменте и на каждом стыке. Проверь плавность по задержкам между кадрами - смотри на худшие значения, а не на среднее. Никогда не проси человека глазами проверять то, что можешь измерить.
+
+**Проверка - это доказательство, а не истина. Всегда смотри и на сами пиксели.** Удивительный результат, хороший или плохой, считай утверждением о самой проверке, пока снимок экрана его не подтвердит.
+
+**Отдельно оцени превращение, а не отдельные моменты.** Снимки в начале и в конце должны читаться как начало и конец одного путешествия: герой доехал, а не подменился. Если две главы можно поменять местами и страница не станет выглядеть сломанной - это не один непрерывный кадр, а стопка секций, и замысел провален.
+
+**Страница не должна объяснять сама себя.** Если на ней написано «как читать эту страницу» или «по мере прокрутки кадр сужается» - она пересказала задание вместо того, чтобы его выполнить. Это самый частый способ пройти все технические проверки и всё равно получить не сайт.
+
+---
+
+## ЖЕЛЕЗНЫЕ ПРАВИЛА
+
+- Дизайн и сборка остаются на сильной модели. Механика уходит в код, дизайн - никогда.
+- Подтверждай стоимость до траты, показывай чек после.
+- Один непрерывный кадр. Один мир на бренд. Никаких видимых швов. Никаких плавных переходов, замазывающих стык.
+- Уважай отключённую анимацию в каждой сборке.
+- Концепции всегда атакует тот, кто их не писал. Не пропускается, самопроверкой не заменяется.
+
+## ЛОВУШКИ
+
+- **Никогда не запускай сервер в основном потоке.** Он не завершится, и вся работа потеряется без сообщения об ошибке.
+- **Никогда не давай двум редакторам править один файл.** Если страницу одновременно правит человек или другой процесс - сначала останови одного из них.
+- **Длинная сборка упрётся в предел памяти разговора.** Указания, данные в чате, забудутся; записанные в файл рядом с проектом - останутся. Клади туда пути к кадрам, их количество, цвет стыка и список запретов.
+- **Устаревший список задач переживает поправки.** После сброса памяти работа продолжится по списку, поэтому поправляй список, а не только разговор.
+- **Качай с браузерным заголовком и записывай номера задач на диск сразу, как получил.** Иначе неудачная загрузка после оплаченной генерации не восстановится и обойдётся вдвое.
+</pre></div>
+</div></section>
+
+<section id="links"><div class="wrap">
+<h2 data-rv>Все ссылки</h2>
+<div class="tools">
+<a class="tool" data-rv href="https://youtu.be/sftZj-EOgQM" target="_blank"><span class="nm">Этот видос</span><span class="ds">Смотреть на YouTube</span><span class="pill">видео</span></a>
+<a class="tool" data-rv href="https://www.youtube.com/watch?v=A5qPuRah4lI" target="_blank"><span class="nm">Генерация за копейки</span><span class="ds">Как настроить Kie вместо платной подписки</span><span class="pill">видео</span></a>
+<a class="tool" data-rv href="https://claude.ai" target="_blank"><span class="nm">claude.ai</span><span class="ds">Claude Design и Claude Code</span><span class="pill">сервис</span></a>
+<a class="tool" data-rv href="https://kie.ai" target="_blank"><span class="nm">kie.ai</span><span class="ds">API-ключ для генерации</span><span class="pill">сервис</span></a>
+<a class="tool" data-rv href="https://21st.dev" target="_blank"><span class="nm">21st.dev</span><span class="ds">Готовые компоненты</span><span class="pill">сервис</span></a>
+<a class="tool" data-rv href="https://ui.aceternity.com" target="_blank"><span class="nm">ui.aceternity.com</span><span class="ds">Шейдеры и фоны</span><span class="pill">сервис</span></a>
+<a class="tool" data-rv href="https://reactbits.dev" target="_blank"><span class="nm">reactbits.dev</span><span class="ds">Анимированные компоненты</span><span class="pill">сервис</span></a>
+</div></div></section>
+
+<div class="wrap"><figure class="shot" data-par><img src="img/slop-gorit.jpg" alt="Слоп горит. Дальше - только твой стиль" loading="lazy"><figcaption><span class="k">Финал</span>Слоп горит. Дальше - только твой стиль</figcaption></figure></div>
+
+<section style="padding-top:0"><div class="wrap"><div class="cta" data-rv>
+<a class="cta-cover" href="https://t.me/mastodont_aibot?start=mini_kurs" target="_blank" aria-label="Забрать интенсив"></a>
+<h2>Первые <span>$2к</span> на ИИ<br>бесплатный интенсив</h2>
+<div class="cta-cols">
+<div><h4>Внутри</h4><ul>
+<li>✅ Реальное демо вживую</li>
+<li>✅ Софт, который за 5 минут находит компании без сайтов с готовыми контактами</li>
+<li>✅ Кейсы учеников: $1650 за 3 проекта без команды</li>
+</ul></div>
+<div><h4>Два бонуса в конце</h4><ul>
+<li>💰 50 скучных и самых прибыльных ниш без конкуренции</li>
+<li>🚀 Чек-лист: первые $500 за 7 дней</li>
+</ul></div>
+</div>
+<div class="cta-bottom">
+<span class="free"><b>Бесплатно.</b> Навсегда.</span>
+<span class="cta-btn">Забрать интенсив</span>
+</div>
+</div></div></section>
+
+<footer><div class="wrap f-in">
+<span class="brand">Мастодонт</span>
+<span class="tag">AI и нейросети - просто, по делу</span>
+<a href="https://youtu.be/sftZj-EOgQM" target="_blank">Смотреть на YouTube</a>
+</div></footer>
+
+<script>
+/* появление блоков */
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}});
+},{threshold:.12,rootMargin:"0px 0px -8% 0px"});
+document.querySelectorAll("[data-rv]").forEach(function(el,i){
+  // в шапке выезд оставляем; ниже неё всё, что уже видно, показываем сразу
+  var inHero=!!el.closest(".hero");
+  if(!inHero && el.getBoundingClientRect().top < innerHeight*1.05){
+    // видно сразу - проигрываем выезд не дожидаясь прокрутки, следом за шапкой
+    setTimeout(function(){el.classList.add("in")}, 420+(i%6)*90);
+    return;
+  }
+  el.style.transitionDelay=(i%6*70)+"ms";io.observe(el);
+});
+
+/* параллакс шапки и кадров + полоса прогресса */
+var bar=document.getElementById("bar"),hero=document.getElementById("heroimg");
+var shots=[].slice.call(document.querySelectorAll(".shot img"));
+function frame(){
+  var y=scrollY,h=document.body.scrollHeight-innerHeight;
+  bar.style.width=(h>0?y/h*100:0)+"%";
+  if(hero)hero.style.transform="translateY("+(y*.22)+"px)";
+  
+  shots.forEach(function(im){
+    var r=im.parentElement.getBoundingClientRect();
+    if(r.bottom<0||r.top>innerHeight)return;
+    var p=(r.top+r.height/2-innerHeight/2)/innerHeight;
+    im.style.transform="translateY("+(p*-22)+"px)";
+  });
+}
+addEventListener("scroll",function(){requestAnimationFrame(frame)},{passive:true});
+frame();
+
+/* свет за курсором */
+var aura=document.getElementById("aura");
+addEventListener("pointermove",function(e){
+  aura.style.left=e.clientX+"px";aura.style.top=e.clientY+"px";
+},{passive:true});
+
+/* наклон карточек */
+document.querySelectorAll(".card").forEach(function(c){
+  c.addEventListener("pointermove",function(e){
+    var r=c.getBoundingClientRect();
+    var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    c.style.transform="rotateY("+(x*7)+"deg) rotateX("+(-y*7)+"deg) translateZ(14px)";
+  });
+  c.addEventListener("pointerleave",function(){c.style.transform=""});
+});
+
+/* копирование */
+document.querySelectorAll(".copy").forEach(function(b){
+  b.addEventListener("click",function(){
+    var t=b.closest(".pr").querySelector(".pr-body").innerText;
+    navigator.clipboard.writeText(t).then(function(){
+      b.querySelector("span").textContent="✓ Скопировано!";b.classList.add("done");
+      setTimeout(function(){b.querySelector("span").textContent="Скопировать";b.classList.remove("done")},2000);
+    });
+  });
+});
+</script>
+</body></html>
